@@ -10,7 +10,7 @@ result = [];
 form = cgi.FieldStorage()
 history = form.getvalue("history")
 if history == None:
-  maximum = 10
+  maximum = 1
 else:
   maximum = int(history)
 
@@ -32,7 +32,7 @@ with open('./status.d', 'rb') as f:
       'msg': e[7]
     })
     i += 1
-    if i > maximum:
+    if i >= maximum:
       break
   
 print "Content-type: application/json"
