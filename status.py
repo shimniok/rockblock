@@ -9,39 +9,31 @@ result = [];
 
 form = cgi.FieldStorage()
 history = form.getvalue("history")
+if history == None:
+  maximum = 10
+else:
+  maximum = int(history)
 
 # TODO: revise to use logfile and extended format
 
 with open('./status.d', 'rb') as f:
   entries = list(csv.reader(f))
-  
-  if history == None:
-    # current entry only
-    e = entries[len(entries)-1];
+  # print number of entries specified by history param
+  i = 0
+  for e in entries:
     result.append({
       'time': e[0],
-      'lat': e[1],
-      'lng': e[2],
-      'speed': e[3],
-      'course': e[4],
-      'msg': e[5]
+      'emei': e[1],
+      'id': e[2],
+      'lat': e[3],
+      'lng': e[4],
+      'speed': e[5],
+      'course': e[6],
+      'msg': e[7]
     })
-  elif history > 0:
-    # print number of entries specified by history param
-    maximum = int(history)
-    i = 0
-    for e in reversed(entries):
-      result.append({
-        'time': e[0],
-        'lat': e[1],
-        'lng': e[2],
-        'speed': e[3],
-        'course': e[4],
-        'msg': e[5]
-      })
-      i += 1
-      if i >= maximum:
-        break
+    i += 1
+    if i > maximum:
+      break
   
 print "Content-type: application/json"
 print
