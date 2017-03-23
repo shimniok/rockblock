@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="map.js"></script>
+  <link rel="stylesheet" href="map.css">          
+</head>
+<body>
+  <h3>Where's Troubled Child?</h3>
+  <div id="map"></div>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAff5vHXAJ-p4wNprkQ4hTXj36TQ2RPJy0&callback=initMap"></script>
+  <table border="1px" width="100%">
+    <tbody>
+      <tr><td><div id="msgs"></div></td></tr>
+      <tr><td id="send"><form><input id="text" type="text" placeholder="text message"/><input type="submit" value="Send"/></form></td></tr>
+    </tbody>
+  </table>
+  </body>
+</html>
