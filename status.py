@@ -42,8 +42,6 @@ with open('./status.d', 'rb') as f:
       i += 1
       if i >= maximum:
         break
-    # insert actual number of entries
-    result.insert(0, i)
   
 print "Content-type: application/json"
 print
