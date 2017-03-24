@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+print "Content-type: application/json"
+print
+
+import math
 import cgi
 #import cgitb; cgitb.enable()  # for troubleshooting
 import json
@@ -18,9 +22,15 @@ else:
 
 with open('./status.d', 'rb') as f:
   entries = list(csv.reader(f))
+  # if specified history is > length of records, use length
+  maximum = min(maximum, len(entries))
+  # calculate how many entries to skip
+  skip = len(entries) - maximum
   # print number of entries specified by history param
-  i = 0
   for e in entries:
+    if skip:
+      skip -= 1
+      continue
     result.append({
       'time': e[0],
       'emei': e[1],
@@ -31,10 +41,6 @@ with open('./status.d', 'rb') as f:
       'course': e[6],
       'msg': e[7]
     })
-    i += 1
-    if i >= maximum:
-      break
   
-print "Content-type: application/json"
-print
 print json.dumps(result, sort_keys=True, indent=4)
+    
