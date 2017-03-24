@@ -7,11 +7,11 @@ import time
 url = 'http://nogales/rock/receive.py'
 
 points = [ 
-	{ 'lon': "-104.932838", 'lat': "39.597550", 'speed': 5, 'course': 12 },
-	{ 'lon': "-104.932823", 'lat': "39.598514", 'speed': 5, 'course': 2 },
-  { 'lon': "-104.932373", 'lat': "39.599715", 'speed': 5, 'course': 2 },
-  { 'lon': "-104.932359", 'lat': "39.601095", 'speed': 5, 'course': 46 },
-  { 'lon': "-104.930727", 'lat': "39.600900", 'speed': 5, 'course': 73 }
+	{ 'lon': "-104.932838", 'lat': "39.597550", 'speed': 5, 'course': 12, 'text': 'hi'},
+	{ 'lon': "-104.932823", 'lat': "39.598514", 'speed': 5, 'course': 2, 'text': '' },
+  { 'lon': "-104.932373", 'lat': "39.599715", 'speed': 5, 'course': 2, 'text': 'aok' },
+  { 'lon': "-104.932359", 'lat': "39.601095", 'speed': 5, 'course': 46, 'text': '' },
+  { 'lon': "-104.930727", 'lat': "39.600900", 'speed': 5, 'course': 73, 'text': '' }
 ]
 
 momsn = 0
@@ -25,7 +25,7 @@ for p in points:
 	lat[1] = lat[1][:5]
 	lon[1] = lon[1][:5]
 	# put data back together, don't include '.' for lat/lon
-	mydata = '%s%s,%s%s,%s,%s' % (lat[0], lat[1], lon[0], lon[1], p['speed'], p['course'])
+	mydata = '%s%s,%s%s,%s,%s,%s' % (lat[0], lat[1], lon[0], lon[1], p['speed'], p['course'], p['text'])
 	print mydata
 	message = {
 		'imei': '300234010753370',

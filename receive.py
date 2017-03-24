@@ -52,11 +52,12 @@ if (data != None):
     lon = parseGeo(d[1])
     speed = d[2]
     course = d[3]
+    text = d[4]
 
 # Write status data
-#with open('rock.log', 'a') as mylog:
-#    mylog.write('%s,%s,%s,%s,%s,%s,%s,%s\n' %
-#        (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, text ))
+with open('status.d', 'a') as mylog:
+    mylog.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
+        (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
 
 print "Content-type: text/html"
 print
@@ -64,7 +65,9 @@ print """
 <html>
 <head><title>RockBlock web service</title></head>
 <body>
-<p>Message submitted.</p>
+"""
+print "<p>Message submitted. (lat: %s lon: %s speed: %s course: %s, text: \"%s\")</p>"%(lat, lon, speed, course, text)
+print """
 </body>
 </html>
 """
