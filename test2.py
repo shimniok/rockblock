@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+## For testing receive.py by posting status updates, emulating RockBlock
+
 import requests
 import time
 url = 'http://nogales/rock/receive.py'
