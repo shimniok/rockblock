@@ -1,8 +1,8 @@
 /* map.js - display map and update position as reported by web service */
 
-var interval = 1000;
+var interval = 5000;
 
-// GUI objects
+// View objects
 var map, infowindow, drawingManager;
 var contentString = '<span id="msg"></span><br id="msg"/><span id="lat">?</span>, <span id="lng">?</span><br/>\
 <span id="speed">?</span> mph, <span id="course">?</span>&deg<br/>\
@@ -10,63 +10,84 @@ Last Updated: <span id="last">?</span>';
 var currentIcon = 'jeep-icon.png';
 var trailIcon = 'circle.png';
 
+// TODO: modify for extended format parameters
+
+var maxLength = 30
+
 // Model
-var speed, course, message;
-var marker = [];
+// Status: lat, long, course, speed, marker, infowindow
+var report = [];
+// Message:
+var message = [];
+var lastId = -99;
 
-function update() {
-	message = "";
-	course = "0";
-	speed = "0";
-	$.getJSON("status.py", function(resp) {
-		r = resp[0];
-		console.log(r);	
-		// TODO: modify for extended format parameters
-		var lat = parseFloat(r.lat).toFixed(6);
-		var lng = parseFloat(r.lng).toFixed(6);
-		var position = new google.maps.LatLng(lat, lng);
-		// update infowindow
-		$("span#lat").text(lat);
-		$("span#lng").text(lng);
-		$("span#speed").text(r.speed);
-		$("span#course").text(r.course);
-		$("span#msg").text(r.msg);
-		if (r.msg != "") {
-			$("br#msg").show();
-		} else {
-			$("br#msg").hide();
-		}
-		$("span#last").text(r.time);
-  	infowindow.open(map, marker[0]);
-		// Shift markers
-		// Set position of marker 0 (current position)
-		marker[0].setPosition(position);
-		map.panTo(position);
+///////////////////////////////////////////////////////////////////////
+// Inserts a new report object if id is new
+function addReport(id, lat, lng, course, speed) {	
+	if (id == lastId)
+		return;
+	console.log("adding new");
+	// change icon
+	if (report.length > 0)
+		report[report.length-1].marker.setIcon(trailIcon);
+	var newReport = {
+		'id': parseInt(id),
+		'lat': parseFloat(lat).toFixed(6),
+		'lng': parseFloat(lng).toFixed(6),
+		'course': parseInt(course),
+		'speed': parseInt(speed)
+	}
+	newReport.marker = new google.maps.Marker({
+				position: new google.maps.LatLng(newReport.lat, newReport.lng),
+				map: map,
+				icon: currentIcon
 	});
-} // update
+	report[report.length] = newReport;
+	map.panTo(newReport.marker.position);
+	lastId = newReport.id;
+}
 
+
+///////////////////////////////////////////////////////////////////////
+// 
+function updateInfoWindow() {
+	$("span#lat").text(lat);
+	$("span#lng").text(lng);
+	$("span#speed").text(r.speed);
+	$("span#course").text(r.course);
+	$("span#msg").text(r.msg);
+	if (r.msg != "") {
+		$("br#msg").show();
+	} else {
+		$("br#msg").hide();
+	}
+	$("span#last").text(r.time);
+}
+
+///////////////////////////////////////////////////////////////////////
+// polls for most recent status
+function pollForUpdate() {
+	$.getJSON("status.py", function(resp) {
+		s = resp[0];
+		console.log(s);
+		addReport(s.id, s.lat, s.lng, s.course, s.speed);
+	});
+}
+
+///////////////////////////////////////////////////////////////////////
+// Initializes map application
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'));
+  map.setZoom(12);
 	infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
-	$.getJSON("status.py?history=10", function(resp) {
-		for (e of resp) {
-			console.log(e);
-			lat = parseFloat(e.lat).toFixed(6);
-			lng = parseFloat(e.lng).toFixed(6);
-			position = new google.maps.LatLng(lat, lng);
-			marker.push(new google.maps.Marker({
-				position: position,
-				map: map,
-				icon: trailIcon
-			}));
+	$.getJSON("status.py?history="+maxLength, function(resp) {
+		for (s of resp) {
+			addReport(s.id, s.lat, s.lng, s.course, s.speed);
 		}
-		map.setZoom(12);
-		map.panTo(position);	
-		marker[0].setIcon(currentIcon);
+		setInterval(pollForUpdate, interval);
 	});
-	setInterval(update, interval);
 }
 
 $(window).resize(function() {
