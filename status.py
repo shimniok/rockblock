@@ -28,6 +28,8 @@ with open('./status.d', 'rb') as f:
   skip = len(entries) - maximum
   # print number of entries specified by history param
   for e in entries:
+    if len(e) < 8:
+      continue
     if skip:
       skip -= 1
       continue
@@ -35,11 +37,11 @@ with open('./status.d', 'rb') as f:
       'time': e[0],
       'emei': e[1],
       'id': e[2],
-      'lat': e[3],
-      'lng': e[4],
-      'speed': e[5],
-      'course': e[6],
-      'msg': e[7]
+      'lat': e[7],
+      'lng': e[8],
+      'speed': e[9],
+      'course': e[10],
+      'text': e[11]
     })
   
 print json.dumps(result, sort_keys=True, indent=4)

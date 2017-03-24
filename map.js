@@ -23,7 +23,7 @@ var lastId = -99;
 
 ///////////////////////////////////////////////////////////////////////
 // Inserts a new report object if id is new
-function addReport(id, lat, lng, course, speed) {	
+function addReport(id, lat, lng, course, speed, text) {	
 	if (id == lastId)
 		return;
 	console.log("adding new");
@@ -35,7 +35,8 @@ function addReport(id, lat, lng, course, speed) {
 		'lat': parseFloat(lat).toFixed(6),
 		'lng': parseFloat(lng).toFixed(6),
 		'course': parseInt(course),
-		'speed': parseInt(speed)
+		'speed': parseInt(speed),
+		'text': text
 	}
 	newReport.marker = new google.maps.Marker({
 				position: new google.maps.LatLng(newReport.lat, newReport.lng),
@@ -55,7 +56,7 @@ function updateInfoWindow() {
 	$("span#lng").text(lng);
 	$("span#speed").text(r.speed);
 	$("span#course").text(r.course);
-	$("span#msg").text(r.msg);
+	$("span#msg").text(r.text);
 	if (r.msg != "") {
 		$("br#msg").show();
 	} else {
@@ -84,7 +85,8 @@ function initMap() {
 	});
 	$.getJSON("status.py?history="+maxLength, function(resp) {
 		for (s of resp) {
-			addReport(s.id, s.lat, s.lng, s.course, s.speed);
+			console.log(s)
+			addReport(s.id, s.lat, s.lng, s.course, s.speed, s.text);
 		}
 		setInterval(pollForUpdate, interval);
 	});
