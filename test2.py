@@ -5,11 +5,11 @@ import time
 url = 'http://nogales/rock/receive.py'
 
 points = [ 
-	{ 'lon': "-104.932838", 'lat': "39.597551", 'speed': 5, 'course': 12 },
+	{ 'lon': "-104.932838", 'lat': "39.597550", 'speed': 5, 'course': 12 },
 	{ 'lon': "-104.932823", 'lat': "39.598514", 'speed': 5, 'course': 2 },
   { 'lon': "-104.932373", 'lat': "39.599715", 'speed': 5, 'course': 2 },
   { 'lon': "-104.932359", 'lat': "39.601095", 'speed': 5, 'course': 46 },
-  { 'lon': "-104.930727", 'lat': "39.600901", 'speed': 5, 'course': 73 }
+  { 'lon': "-104.930727", 'lat': "39.600900", 'speed': 5, 'course': 73 }
 ]
 
 momsn = 0
@@ -21,7 +21,7 @@ for p in points:
 	lon = p['lon'].split('.')
 	# N decimal digits
 	lat[1] = lat[1][:5]
-	lat[1] = lat[1][:5]
+	lon[1] = lon[1][:5]
 	# put data back together, don't include '.' for lat/lon
 	mydata = '%s%s,%s%s,%s,%s' % (lat[0], lat[1], lon[0], lon[1], p['speed'], p['course'])
 	print mydata
@@ -35,9 +35,7 @@ for p in points:
 		'data': mydata.encode('hex')
 	}
 	print message
-
-# POST with form-encoded data
-#r = requests.post(url, data=message)
-
-# Response, status etc
-#print r.text, r.status_code
+	# POST with form-encoded data
+	r = requests.post(url, data=message)
+	# Response, status etc
+	print r.text, r.status_code
