@@ -35,14 +35,14 @@ with open('./status.d', 'rb') as f:
       continue
     result.append({
       'time': e[0],
-      'emei': e[1],
-      'id': e[2],
+      'momsn': e[1],
+      'imei': e[2],
       'lat': e[7],
       'lng': e[8],
       'speed': e[9],
       'course': e[10],
       'text': e[11]
     })
-  
+
 print json.dumps(result, sort_keys=True, indent=4)
     
