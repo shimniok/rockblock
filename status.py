@@ -21,29 +21,30 @@ else:
 
 # TODO: revise to use logfile and extended format
 
-with open(config.db, 'rb') as f:
-  entries = list(csv.reader(f))
-  # if specified history is > length of records, use length
-  maximum = min(maximum, len(entries))
-  # calculate how many entries to skip
-  skip = len(entries) - maximum
-  # print number of entries specified by history param
-  for e in entries:
-    if len(e) < 8:
-      continue
-    if skip:
-      skip -= 1
-      continue
-    result.append({
-      'time': e[0],
-      'momsn': e[1],
-      'imei': e[2],
-      'lat': e[7],
-      'lng': e[8],
-      'speed': e[9],
-      'course': e[10],
-      'text': e[11]
-    })
-
-print json.dumps(result, sort_keys=True, indent=4)
+try:
+  with open(config.db, 'rb') as f:
+    entries = list(csv.reader(f))
+    # if specified history is > length of records, use length
+    maximum = min(maximum, len(entries))
+    # calculate how many entries to skip
+    skip = len(entries) - maximum
+    # print number of entries specified by history param
+    for e in entries:
+      if len(e) < 8:
+        continue
+      if skip:
+        skip -= 1
+        continue
+      result.append({
+        'time': e[0],
+        'momsn': e[1],
+        'imei': e[2],
+        'lat': e[7],
+        'lng': e[8],
+        'speed': e[9],
+        'course': e[10],
+        'text': e[11]
+      })
+finally:
+  print json.dumps(result, sort_keys=True, indent=4)
     
