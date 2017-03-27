@@ -17,7 +17,6 @@ points = [
 momsn = 0
 
 for p in points:
-	time.sleep(3)
 	# split into integer/fractional parts
 	lat = p['lat'].split('.')
 	lon = p['lon'].split('.')
@@ -29,15 +28,17 @@ for p in points:
 	print mydata
 	message = {
 		'imei': '300234010753370',
-		'momsn': '12345',
+		'momsn': momsn,
 		'transmit_time': '12-10-10 10:41:50',
 		'iridium_latitude': '%s.%s'%(lat[0], lat[1][:4]),
 		'iridium_longitude': '%s.%s'%(lon[0], lon[1][:4]),
 		'iridium_cep': '8',
 		'data': mydata.encode('hex')
 	}
+	momsn += 1
 	print message
 	# POST with form-encoded data
 	r = requests.post(url, data=message)
 	# Response, status etc
 	print r.text, r.status_code
+	time.sleep(20)
