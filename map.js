@@ -7,8 +7,8 @@ var map, infowindow, drawingManager;
 var contentString = '<span id="msg"></span><br id="msg"/><span id="lat">?</span>, <span id="lng">?</span><br/>\
 <span id="speed">?</span> mph, <span id="course">?</span>&deg<br/>\
 Last Updated: <span id="last">?</span>';
-var currentIcon = 'jeep-icon.png';
-var trailIcon = 'circle.png';
+var currentIcon = 'images/jeep-icon.png';
+var trailIcon = 'images/circle.png';
 
 // TODO: modify for extended format parameters
 
