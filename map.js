@@ -17,27 +17,28 @@ var maxLength = 30
 // Model
 // Status: lat, long, course, speed, marker, infowindow
 var report = [];
+var lastTime = 0; // timestamp of most recent report
 // Message:
 var message = [];
-var lastId = -99;
 
 ///////////////////////////////////////////////////////////////////////
 // Inserts a new report object if id is new
-function addReport(id, lat, lng, course, speed, text) {	
-	if (id == lastId)
+function addReport(time, lat, lng, course, speed, text) {	
+	mytime = Date.parse(time);
+	if (mytime <= lastTime)
 		return;
-	console.log("adding new");
 	// change icon
 	if (report.length > 0)
 		report[report.length-1].marker.setIcon(trailIcon);
 	var newReport = {
-		'id': parseInt(id),
+		'time': mytime,
 		'lat': parseFloat(lat).toFixed(6),
 		'lng': parseFloat(lng).toFixed(6),
 		'course': parseInt(course),
 		'speed': parseInt(speed),
 		'text': text
 	}
+	console.log(newReport);
 	newReport.marker = new google.maps.Marker({
 				position: new google.maps.LatLng(newReport.lat, newReport.lng),
 				map: map,
@@ -45,7 +46,7 @@ function addReport(id, lat, lng, course, speed, text) {
 	});
 	report[report.length] = newReport;
 	map.panTo(newReport.marker.position);
-	lastId = newReport.id;
+	lastTime = newReport.time;
 }
 
 
@@ -71,7 +72,7 @@ function pollForUpdate() {
 	$.getJSON("status.py", function(resp) {
 		s = resp[0];
 		console.log(s);
-		addReport(s.id, s.lat, s.lng, s.course, s.speed);
+		addReport(s.time, s.lat, s.lng, s.course, s.speed);
 	});
 }
 
@@ -79,14 +80,15 @@ function pollForUpdate() {
 // Initializes map application
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'));
-  map.setZoom(12);
+  map.setZoom(14);
+  map.panTo({'lng': -104.932838, 'lat': 39.597550});
 	infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
 	$.getJSON("status.py?history="+maxLength, function(resp) {
 		for (s of resp) {
 			console.log(s)
-			addReport(s.id, s.lat, s.lng, s.course, s.speed, s.text);
+			addReport(s.time, s.lat, s.lng, s.course, s.speed, s.text);
 		}
 		setInterval(pollForUpdate, interval);
 	});
