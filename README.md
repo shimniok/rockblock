@@ -17,6 +17,7 @@ where:
 
 ## Installation
  
+ * Install the files in a subdirectory accessible to your web server
  * config.py references the data file location (e.g., data/status.d). 
  * Create the data file (and directory if necessary), make it writeable
 by the httpd user (typically www-data)
