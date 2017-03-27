@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
-print "Content-type: application/json"
-print
-
 import math
 import cgi
 #import cgitb; cgitb.enable()  # for troubleshooting
 import json
 import csv
+import config
+
+print "Content-type: application/json"
+print
 
 result = [];
 
@@ -20,7 +21,7 @@ else:
 
 # TODO: revise to use logfile and extended format
 
-with open('./status.d', 'rb') as f:
+with open(config.db, 'rb') as f:
   entries = list(csv.reader(f))
   # if specified history is > length of records, use length
   maximum = min(maximum, len(entries))

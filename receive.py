@@ -19,6 +19,7 @@
 import datetime
 import cgi
 import cgitb; cgitb.enable()  # for troubleshooting
+import config
 
 ########################################################################
 # parseGeo: adds decimal to unpadded 5 decimal digit number string
@@ -55,7 +56,7 @@ if (data != None):
     text = d[4]
 
 # Write status data
-with open('status.d', 'a') as mylog:
+with open(config.db, 'a') as mylog:
     mylog.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
         (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
 
