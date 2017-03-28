@@ -46,6 +46,10 @@ iridium_cep= form.getvalue("iridium_cep")
 data = form.getvalue("data")
 text = ''
 
+with open(config.log, 'a') as log:
+    log.write('%s,%s,%s,%s,%s,%s,%s,%s\n' %
+        (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, data ))
+
 # Decode the data
 if (data != None):
     d = data.decode('hex').split(',')
@@ -56,8 +60,8 @@ if (data != None):
     text = d[4]
 
 # Write status data
-with open(config.db, 'a') as mylog:
-    mylog.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
+with open(config.db, 'a') as db:
+    db.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
         (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
 
 print "Content-type: text/html"
