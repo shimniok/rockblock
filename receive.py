@@ -18,7 +18,7 @@
 
 import datetime
 import cgi
-import cgitb; cgitb.enable()  # for troubleshooting
+#import cgitb; cgitb.enable()  # for troubleshooting
 import config
 
 ########################################################################
@@ -50,20 +50,6 @@ with open(config.log, 'a') as log:
     log.write('%s,%s,%s,%s,%s,%s,%s,%s\n' %
         (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, data ))
 
-# Decode the data
-if (data != None):
-    d = data.decode('hex').split(',')
-    lat = parseGeo(d[0])
-    lon = parseGeo(d[1])
-    speed = d[2]
-    course = d[3]
-    text = d[4]
-
-# Write status data
-with open(config.db, 'a') as db:
-    db.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
-        (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
-
 print "Content-type: text/html"
 print
 print """
@@ -71,7 +57,29 @@ print """
 <head><title>RockBlock web service</title></head>
 <body>
 """
-print "<p>Message submitted. (lat: %s lon: %s speed: %s course: %s, text: \"%s\")</p>"%(lat, lon, speed, course, text)
+
+ok = True
+for e in [ imei, momsn, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, data ]:
+    if e == None:
+        ok = False
+
+if ok:
+    # Decode the data
+    if (data != None):
+        d = data.decode('hex').split(',')
+        lat = parseGeo(d[0])
+        lon = parseGeo(d[1])
+        speed = d[2]
+        course = d[3]
+        text = d[4]
+
+    # Write status data
+    with open(config.db, 'a') as db:
+        db.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
+            (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
+
+    print "<p>Message submitted. (lat: %s lon: %s speed: %s course: %s, text: \"%s\")</p>"%(lat, lon, speed, course, text)
+
 print """
 </body>
 </html>
