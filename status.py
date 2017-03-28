@@ -13,11 +13,10 @@ print
 result = [];
 
 form = cgi.FieldStorage()
-history = form.getvalue("history")
-if history == None:
+try:
+  maximum = int(form.getvalue("history"))
+except:
   maximum = 1
-else:
-  maximum = int(history)
 
 # TODO: revise to use logfile and extended format
 
