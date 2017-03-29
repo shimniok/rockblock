@@ -16,8 +16,8 @@
 <body>
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-1">Tracking</a></li>
         <li><a href="#tabs-2">Messaging</a></li>
+        <li><a href="#tabs-1">Tracking</a></li>
       </ul>
       
       <div id="tabs-1">
@@ -29,7 +29,12 @@
         <table border="1px" width="100%">
           <tbody>
             <tr><td><div id="msgs"></div></td></tr>
-            <tr><td id="send"><form><input id="text" type="text" placeholder="text message"/><input type="submit" value="Send"/></form></td></tr>
+            <tr><td>
+              <form id="messaging">
+                <input type="text" id="message" placeholder="text message"/>
+                <input class="ui-button ui-widget ui-corner-all" type="submit" value="Send"/>
+              </form>
+            </td></tr>
           </tbody>
         </table>
       </div>
