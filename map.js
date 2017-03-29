@@ -21,6 +21,24 @@ var lastTime = 0; // timestamp of most recent report
 // Message:
 var message = [];
 
+function recenter() {
+	var lat, lng;
+	if (report.length > 0) {
+		current = report[report.length-1];
+		lat = current.lat;
+		lng = current.lng;
+	} else {
+		// Default home
+		lat = -104.932838;
+		lng = 39.597550;
+	}
+	try {
+		map.panTo(new google.maps.LatLng(lat, lng));
+	} catch (e) {
+		console.log(e);
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////
 // Inserts a new report object if id is new
 function addReport(time, lat, lng, course, speed, text) {	
@@ -45,7 +63,7 @@ function addReport(time, lat, lng, course, speed, text) {
 				icon: currentIcon
 	});
 	report[report.length] = newReport;
-	map.panTo(newReport.marker.position);
+	recenter();
 	lastTime = newReport.time;
 }
 
@@ -81,7 +99,7 @@ function pollForUpdate() {
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'));
   map.setZoom(14);
-  map.panTo({'lng': -104.932838, 'lat': 39.597550});
+  recenter();
 	infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
@@ -95,10 +113,12 @@ function initMap() {
 }
 
 $(window).resize(function() {
-	update();
+	recenter();
 });
 
-$("form").submit(function() {
+$(function() {
+	$("form").submit(function(event) {
+		event.preventDefault();
+		console.log("Handler for .submit() called.");
+	});
 });
-
-
