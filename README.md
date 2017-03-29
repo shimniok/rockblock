@@ -6,6 +6,15 @@ tracking and messaging interface, and a mobile client.
 Written in Python for Linux (including Raspberry Pi), tested on Linux
 Mint 17.3
 
+## Cloning
+You'll need to run the following commands to populate the pyRockBlock
+submodule:
+
+```
+git submodule init
+git submodule update
+```
+
 ## Message Format
 The data portion of the RockBlock message is csv formatted:
 lat,lon,speed,course,text
