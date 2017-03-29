@@ -93,3 +93,5 @@ ENV/
 *.log
 *.txt
 *.swp
+
+config.py
