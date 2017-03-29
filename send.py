@@ -2,24 +2,34 @@
 
 import datetime
 import cgi
-import cgitb; cgitb.enable()  # for troubleshooting
+#import cgitb; cgitb.enable()  # for troubleshooting
+import config
+import json
+import requests
 
-url="https://core.rock7.com/rockblock/MT"
+print "Content-type: application/json"
+print
+
+result = [];
 
 form = cgi.FieldStorage()
 message = form.getvalue("message")
 
-# Put in config.py
-imei = ""
-username = ""
-password = ""
-
-# convert message to hex-encoded data
-
+if message == None:
+  message = "test"
+  
 # call remote url
+payload = { 
+  'imei': config.imei,
+  'username': config.username,
+  'password': config.password,
+  'data': message.encode('hex')
+}
 
-# log message, time & status in msgs.d
+# POST with form-encoded data
+r = requests.post(config.rockblock_url, data=payload)
 
+# Result is in the following plain/text format:
 # OK,12345678 <-- messageid
 # FAILED,errorcode#,Textual description of failure
 # Error Code # / Textual description
@@ -31,3 +41,23 @@ password = ""
 # 15 Data too long
 # 16 No data
 # 99 System error
+s = str(r.content).rstrip().split(',')
+j = {}
+j['status'] = s[0];
+if s[0] == "OK":
+  j['mtmsn'] = s[1];
+else:
+  j['errno'] = s[1];
+  j['error'] = s[2];
+  
+result.append(j)
+
+with open(config.log, 'a') as log:
+    log.write('%s,%s,%s,"%s",' %
+        (datetime.datetime.now(), payload['imei'], payload['username'], message ))
+    log.write(r.content)
+    log.write('\n')
+    
+
+print json.dumps(result, sort_keys=True, indent=4)
+
