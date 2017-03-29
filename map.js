@@ -117,8 +117,25 @@ $(window).resize(function() {
 });
 
 $(function() {
+	
+	///////////////////////////////////////////////////////////////////////
+	// Handle message submit/send
 	$("form").submit(function(event) {
+		msg = $("#message").val();
+		console.log("Message send: " + msg);
+
+		data = { 'message': msg };
+
+		$.post('send.py', data, function(response) {
+			r = response[0];
+			console.log(r);
+			if (r.status == "OK") {
+				// indicate success, do other stuff
+			} else {
+			}
+		}, 'json');
 		event.preventDefault();
-		console.log("Handler for .submit() called.");
+
 	});
+		
 });
