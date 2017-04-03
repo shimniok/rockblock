@@ -66,19 +66,25 @@ for e in [ imei, momsn, transmit_time, iridium_latitude, iridium_longitude, irid
 if ok:
     # Decode the data
     if (data != None):
-        d = data.decode('hex').split(',')
-        lat = parseGeo(d[0])
-        lon = parseGeo(d[1])
-        speed = d[2]
-        course = d[3]
-        text = d[4]
+        text = data.decode('hex')
+        # is this a text message or a telemetry message?
+        if text[0] == '\x01':
+            d = text.split(',')
+            lat = parseGeo(d[0])
+            lon = parseGeo(d[1])
+            speed = d[2]
+            course = d[3]
+            text = d[4]
 
-    # Write status data
-    with open(config.db, 'a') as db:
-        db.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
-            (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
+            # Write status data
+            with open(config.db, 'a') as db:
+                db.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' %
+                    (datetime.datetime.now(), momsn, imei, transmit_time, iridium_latitude, iridium_longitude, iridium_cep, lat, lon, speed, course, text ))
 
-    print "<p>Message submitted. (lat: %s lon: %s speed: %s course: %s, text: \"%s\")</p>"%(lat, lon, speed, course, text)
+            print "<p>Message submitted. (lat: %s lon: %s speed: %s course: %s, text: \"%s\")</p>"%(lat, lon, speed, course, text)
+
+        else:
+            print "<p>Message: <pre>%s</pre>" % text
 
 print """
 </body>
