@@ -126,12 +126,14 @@ $(function() {
 
 		data = { 'message': msg };
 
-		$.post('send.py', data, function(response) {
+		$.post('/rock/send.py', data, function(response) {
 			r = response[0];
 			console.log(r);
 			if (r.status == "OK") {
-				// indicate success, do other stuff
+				$("#message").val('');
+				$("div#status").text('OK');
 			} else {
+				$("div#status").text(r.errno + " " + r.error);
 			}
 		}, 'json');
 		event.preventDefault();
