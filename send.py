@@ -57,7 +57,9 @@ with open(config.log, 'a') as log:
         (datetime.datetime.now(), payload['imei'], payload['username'], message ))
     log.write(r.content)
     log.write('\n')
-    
+
+with open(config.message_db, 'a') as msg:
+    msg.write('%s,MT,%s\n' % (datetime.datetime.now(), message))
 
 print json.dumps(result, sort_keys=True, indent=4)
 
