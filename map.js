@@ -94,6 +94,15 @@ function pollForUpdate() {
 	});
 }
 
+
+function escapeHtml(text) {
+    'use strict';
+    return text.replace(/[\"&<>]/g, function (a) {
+        return { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' }[a];
+    });
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 // Initializes map application
 function initMap() {
@@ -105,10 +114,26 @@ function initMap() {
 	});
 	$.getJSON("status.py?history="+maxLength, function(resp) {
 		for (s of resp) {
-			console.log(s)
-			addReport(s.time, s.lat, s.lng, s.course, s.speed, s.text);
+			console.log(s);
+            addReport(s.time, s.lat, s.lng, s.course, s.speed, s.text);
 		}
 		setInterval(pollForUpdate, interval);
+	});
+
+	//TODO: move messaging into separate function/file/module/etc
+	$.getJSON("messages.py", function(response) {
+        console.log(response);
+        var msgs = '';
+        for (m of response) {
+            console.log(m.text);
+            if (m.type == "MO") {
+                msgs += "<b>mobile:</b> ";
+            } else {
+                msgs += "<b>home:</b> "
+            }
+            msgs += (escapeHtml(m.text) + "<br/>");
+        }
+        $("div#msgs").html(msgs);
 	});
 }
 
