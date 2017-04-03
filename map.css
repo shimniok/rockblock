@@ -4,8 +4,11 @@
 	height: 400px;
 }
 
-#msg {
-	font-weight: bold;
+span.mt {
+	color: green;
+}
+
+span.mo {
 	color: blue;
 }
 

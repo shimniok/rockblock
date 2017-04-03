@@ -127,11 +127,11 @@ function initMap() {
         for (m of response) {
             console.log(m.text);
             if (m.type == "MO") {
-                msgs += "<b>mobile:</b> ";
+                msgs += "<span class='mo'><b>mobile:</b> ";
             } else {
-                msgs += "<b>home:</b> "
+                msgs += "<span class='mt'><b>home:</b> "
             }
-            msgs += (escapeHtml(m.text) + "<br/>");
+            msgs += (escapeHtml(m.text) + "</span><br/>");
         }
         $("div#msgs").html(msgs);
 	});
