@@ -25,9 +25,9 @@ where:
  * text: arbitrary string
 
 ## Installation
- 
+
  * Install the files in a subdirectory accessible to your web server
- * config.py references the data file location (e.g., data/status.d). 
+ * config.py references the data file location (e.g., data/status.d).
  * Create the data file (and directory if necessary), make it writeable
 by the httpd user (typically www-data)
  * Obtain a Google Maps API key
@@ -64,5 +64,3 @@ send from the RockBlock to home base are MO messages.
 * rockBlock.py	       -- Mobile-side: Library for communicating with RockBLOCK
 * rbControl.py*        -- Mobile-side: Library for sending/receiving, uses rockBlock.py
 * send.py*             -- Mobile-side: Sends message by calling Rock API
-
-
