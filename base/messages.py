@@ -3,7 +3,7 @@
 ##################################################################################################
 ## messages.py
 ##
-## Base station - REST API for messages received
+## Base station - REST API to retrieve messages sent and received
 ##################################################################################################
 
 import math
@@ -39,5 +39,7 @@ try:
           'type': e[1],
           'text': text
         })
+except Exception:
+    print "whee"
 finally:
   print json.dumps(result, sort_keys=True, indent=4)

@@ -41,7 +41,7 @@ function recenter() {
 
 ///////////////////////////////////////////////////////////////////////
 // Inserts a new report object if id is new
-function addReport(time, lat, lng, course, speed, text) {	
+function addReport(time, lat, lng, course, speed, text) {
 	mytime = Date.parse(time);
 	if (mytime <= lastTime)
 		return;
@@ -69,7 +69,7 @@ function addReport(time, lat, lng, course, speed, text) {
 
 
 ///////////////////////////////////////////////////////////////////////
-// 
+//
 function updateInfoWindow() {
 	$("span#lat").text(lat);
 	$("span#lng").text(lng);
@@ -87,7 +87,7 @@ function updateInfoWindow() {
 ///////////////////////////////////////////////////////////////////////
 // polls for most recent status
 function pollForUpdate() {
-	$.getJSON("status.py", function(resp) {
+	$.getJSON("/rock/base/status.py", function(resp) {
 		s = resp[0];
 		console.log(s);
 		addReport(s.time, s.lat, s.lng, s.course, s.speed);
@@ -112,7 +112,7 @@ function initMap() {
 	infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
-	$.getJSON("status.py?history="+maxLength, function(resp) {
+	$.getJSON("/rock/base/status.py?history="+maxLength, function(resp) {
 		for (s of resp) {
 			console.log(s);
             addReport(s.time, s.lat, s.lng, s.course, s.speed, s.text);
@@ -121,7 +121,7 @@ function initMap() {
 	});
 
 	//TODO: move messaging into separate function/file/module/etc
-	$.getJSON("messages.py", function(response) {
+	$.getJSON("/rock/base/messages.py", function(response) {
         console.log(response);
         var msgs = '';
         for (m of response) {
@@ -142,7 +142,7 @@ $(window).resize(function() {
 });
 
 $(function() {
-	
+
 	///////////////////////////////////////////////////////////////////////
 	// Handle message submit/send
 	$("form").submit(function(event) {
@@ -151,7 +151,7 @@ $(function() {
 
 		data = { 'message': msg };
 
-		$.post('/rock/send.py', data, function(response) {
+		$.post('/rock/base/send.py', data, function(response) {
 			r = response[0];
 			console.log(r);
 			if (r.status == "OK") {
@@ -164,5 +164,5 @@ $(function() {
 		event.preventDefault();
 
 	});
-		
+
 });
