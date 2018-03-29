@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-# emulates rockblock api so I don't have to burn credits testing...
+##################################################################################################
+## mtstub.py
+##
+## emulates rockblock api so I don't have to burn credits testing...
+##################################################################################################
 
 import cgi
 #import cgitb; cgitb.enable()  # for troubleshooting
@@ -11,4 +15,4 @@ print
 
 form = cgi.FieldStorage()
 
-print "OK,12345"    
+print "OK,12345"

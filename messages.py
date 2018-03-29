@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+##################################################################################################
+## messages.py
+##
+## Base station - REST API for messages received
+##################################################################################################
+
 import math
 import cgi
 #import cgitb; cgitb.enable()  # for troubleshooting
@@ -35,4 +41,3 @@ try:
         })
 finally:
   print json.dumps(result, sort_keys=True, indent=4)
-    

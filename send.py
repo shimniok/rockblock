@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+##################################################################################################
+## send.py
+##################################################################################################
+
 import datetime
 import cgi
 #import cgitb; cgitb.enable()  # for troubleshooting
@@ -17,9 +21,9 @@ message = form.getvalue("message")
 
 if message == None:
   message = "test"
-  
+
 # call remote url
-payload = { 
+payload = {
   'imei': config.imei,
   'username': config.username,
   'password': config.password,
@@ -49,7 +53,7 @@ if s[0] == "OK":
 else:
   j['errno'] = s[1];
   j['error'] = s[2];
-  
+
 result.append(j)
 
 with open(config.log, 'a') as log:
@@ -62,4 +66,3 @@ with open(config.message_db, 'a') as msg:
     msg.write('%s,MT,%s\n' % (datetime.datetime.now(), message))
 
 print json.dumps(result, sort_keys=True, indent=4)
-

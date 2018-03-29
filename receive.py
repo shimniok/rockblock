@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+##################################################################################################
 ## receive.py
 ##
 ## Expects post or get with parameters:
@@ -15,6 +16,7 @@
 ##      lon: string as [-]NNNNNNNN (not padded; 5 decimal digits only, no '.')
 ##      speed: string as integer, not padded
 ##      course: string as integer, not padded
+##################################################################################################
 
 import datetime
 import cgi
@@ -90,4 +92,3 @@ print """
 </body>
 </html>
 """
-

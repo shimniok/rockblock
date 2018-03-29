@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
-import lib.rockBlock as rockBlock
-from lib.rockBlock import rockBlockProtocol
+##################################################################################################
+## rbControl.py
+##
+## Class for controlling RockBLOCK using rockBlock class
+##################################################################################################
+
+import rockBlock as rockBlock
+from rockBlock import rockBlockProtocol
 
 class RockBlockControl(rockBlockProtocol):
-    
+
     ## initialize with serial device path
     def __init__(self, serial_dev):
         self.dev = serial_dev
@@ -25,7 +31,7 @@ class RockBlockControl(rockBlockProtocol):
     ## Indicate transmit failed
     def rockBlockTxFailed(self):
         print "rockBlockTxFailed"
-        
+
     ## Indicate transmit succeeded
     def rockBlockTxSuccess(self,momsn):
         print "rockBlockTxSuccess " + str(momsn)
@@ -46,7 +52,7 @@ class RockBlockControl(rockBlockProtocol):
     ## Indicate receive failed
     def rockBlockRxFailed(self):
         print "rockBlockRxFailed"
-        
+
     ## Receive succeeded; print mtmsn (message sequence #) and data
     def rockBlockRxReceived(self,mtmsn,data):
         print "rockBlockRxReceived " + str(mtmsn) + " " + data
@@ -54,7 +60,7 @@ class RockBlockControl(rockBlockProtocol):
     ## Print length of message queue
     def rockBlockRxMessageQueue(self,count):
         print "rockBlockRxMessageQueue " + str(count)
-             
-                     
+
+
 if __name__ == '__main__':
     print "import this..."

@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
+##################################################################################################
+## motest.py
+##
 ## Emulate Mobile Originated messages (posts to receive.py web service)
 ##
 ## usage: motest.py "message"
+##################################################################################################
 
 import sys
 import requests
