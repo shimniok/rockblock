@@ -44,21 +44,25 @@ send from the RockBlock to home base are MO messages.
 
 ## Files
 
-* config.py
-* config.py.template
-* data/           -- data files (status and messages)
-* images/
-* LICENSE
-* map.css         -- Style sheet for Map/Txt web page
-* map.html        -- Map/Txt web page
-* map.js          -- Implements tracking and messaging
-* messages.py*    -- REST web service that lists recent messages
-* mobile_client.py*
-* mosend.py       -- Send message to home via RockBlock over serial
-* mtrecv.py*      -- Receive message from home via RockBlock over serial
-* mtstub.py*      -- Emulates rockblock api for testing without burning credits
-* pyRockBlock/
-* rbControl.py*   -- Library for sending/receiving
-* receive.py*     -- Implements web service called by Rock
-* send.py*        -- Sends message by calling Rock API
-* status.py*      -- REST web service to return current status
+* base/		       -- Base station app and api
+* base/data/           -- data files (status and messages)
+*   messages.d	       -- message database
+*   status.d           -- telemetry database
+*   images/	       -- base app image files
+*   config.py          -- configuration for base api/app
+*   config.py.template -- configuration template (copy to config.py, edit)
+*   map.css            -- Style sheet for Map/Txt web page
+*   index.html         -- Map/Txt web page
+*   map.js             -- Implements tracking and messaging
+*   messages.py        -- REST web service that lists recent messages
+*   receive.py         -- Implements GCI web service called by Rock's servers
+*   status.py          -- REST web service to return current status
+* mobile_client.py     -- Mobile-side: client app for sending position and text chat
+* mosend.py            -- Mobile-side: Send message to home via RockBlock over serial
+* mtrecv.py*           -- Mobile-side: Receive message from home via RockBlock over serial
+* mtstub.py*           -- Mobile-side: Emulates rockblock api for testing without burning credits
+* rockBlock.py	       -- Mobile-side: Library for communicating with RockBLOCK
+* rbControl.py*        -- Mobile-side: Library for sending/receiving, uses rockBlock.py
+* send.py*             -- Mobile-side: Sends message by calling Rock API
+
+
